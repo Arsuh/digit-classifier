@@ -12,8 +12,6 @@ class AppWindow:
     _fill = 'white'
 
     def __init__(self, root):
-        self.model = load_model('../best_models/{}.hdf5'.format(self._model))
-
         root.title('Digit Classifier')
         root.resizable(False, False)
 
@@ -31,7 +29,7 @@ class AppWindow:
         label = Label(root, text='Prediction: NaN')
         label.grid(row=4, column=0, sticky=W, padx=4, pady=4)
 
-        #self.model = load_model('../best_models/{}.hdf5'.format(self._model))
+        self.model = load_model('../best_models/{}.hdf5'.format(self._model))
     
     def draw(self, event=None):
         size = 10
