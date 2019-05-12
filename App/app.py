@@ -12,8 +12,6 @@ class AppWindow:
     _fill = 'white'
 
     def __init__(self, root):
-        self.model = load_model('../best_models/{}.hdf5'.format(self._model))
-
         root.title('Digit Classifier')
         root.resizable(False, False)
 
@@ -23,7 +21,7 @@ class AppWindow:
         c.grid(row=0, column=0, columnspan=3, rowspan=4, pady=3)
 
         _reset = Button(text='Reset', command = lambda: self.reset(c))
-        _reset.grid(row=3, column=1, columnspan=2, sticky=S, padx=77, pady=8)
+        _reset.grid(row=3, column=1, columnspan=2, sticky=S, padx=7, pady=8)
         _predict = Button(text='Predict', command = lambda: self.make_prediction(root, c, label))
         _predict.grid(row=3, column=2, sticky=S+E, padx=4, pady=8)
         #Button(text='Predict', bg="Gray", fg="Gray85").grid(row=3, column=2, sticky=S+E, padx=4, pady=4)
@@ -31,7 +29,7 @@ class AppWindow:
         label = Label(root, text='Prediction: NaN')
         label.grid(row=4, column=0, sticky=W, padx=4, pady=4)
 
-        #self.model = load_model('../best_models/{}.hdf5'.format(self._model))
+        self.model = load_model('../best_models/{}.hdf5'.format(self._model))
     
     def draw(self, event=None):
         size = 10
@@ -51,20 +49,20 @@ class AppWindow:
         best = 999999999
         for i in range(10):
                 if abs(1 - result_list[0][i]) < best:
-                        best = abs(1 - result_list[0][i])
-                        prediction = i
+                    best = abs(1 - result_list[0][i])
+                    prediction = i
 
         label.configure(text = 'Prediction: ' + str(prediction))
 
     def get_image(self, root, widget):
-        x = root.winfo_rootx() + widget.winfo_x()
-        y = root.winfo_rooty() + widget.winfo_y()
-        x1 = x + widget.winfo_width()
-        y1 = y + widget.winfo_height() - 32
+        x1 = root.winfo_rootx() + widget.winfo_x()
+        y1 = root.winfo_rooty() + widget.winfo_y()
+        x2 = x1 + widget.winfo_width()
+        y2 = y1 + widget.winfo_height() - 32
 
-        img = ImageGrab.grab().crop((x,y,x1,y1)).convert('L')
+        img = ImageGrab.grab().crop((x1,y1,x2,y2)).convert('L')
         img = img.resize((28,28), Image.ANTIALIAS)
-        img.save('./img.jpg')
+        img.save('./img.jpg')          #<---- OPTIONAL
         img = np.asarray(img)
         if self._bg == 'white':
             img = 255 - img
