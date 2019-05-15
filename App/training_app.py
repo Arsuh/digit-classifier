@@ -84,12 +84,12 @@ class AppWindow:
             if len(val) > 1:
                 self.warning.config(text = 'Enter only one digit!')
             else:
-                self.warning.config(text = '')
                 img.save('./database/' + str(self._nr) + '.jpg')
                 with open('./database/values.txt', 'a') as f:
                     f.write(self.entry.get())
                     f.write('\n')
                 self._nr += 1
+                self.warning.config(text = '')
         else:
             self.warning.config(text = 'No digit entered!')
 

@@ -1,6 +1,6 @@
 from tkinter import Tk, Canvas, Button, Label, S, E, W
-import pyscreenshot as ImageGrab
-from PIL import Image
+#import pyscreenshot as ImageGrab
+from PIL import Image, ImageGrab
 import numpy as np
 from keras.models import load_model
 
