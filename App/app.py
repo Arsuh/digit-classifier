@@ -7,7 +7,7 @@ from keras.models import load_model
 class AppWindow:
     c_height = 364
     c_width = 364
-    _model = 'single_models/Conv128'
+    _model = 'single_models/Best'
     _bg = 'black'
     _fill = 'white'
 
