@@ -62,7 +62,7 @@ class AppWindow:
 
         img = ImageGrab.grab().crop((x1,y1,x2,y2)).convert('L')
         img = img.resize((28,28), Image.ANTIALIAS)
-        img.save('./img.jpg')          #<---- OPTIONAL
+        #img.save('./img.jpg')          #<---- OPTIONAL
         img = np.asarray(img)
         if self._bg == 'white':
             img = 255 - img
