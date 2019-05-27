@@ -3,11 +3,12 @@ from tkinter import Tk, Canvas, Button, Label, S, E, W
 from PIL import Image, ImageGrab
 import numpy as np
 from keras.models import load_model
+import time
 
 class AppWindow:
     c_height = 364
     c_width = 364
-    _model = 'single_models/Conv128'
+    _model = 'single_models/Best'
     _bg = 'black'
     _fill = 'white'
 
@@ -51,7 +52,6 @@ class AppWindow:
                 if abs(1 - result_list[0][i]) < best:
                     best = abs(1 - result_list[0][i])
                     prediction = i
-
         label.configure(text = 'Prediction: ' + str(prediction))
 
     def get_image(self, root, widget):
