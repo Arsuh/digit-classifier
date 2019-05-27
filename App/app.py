@@ -3,6 +3,7 @@ import pyscreenshot as ImageGrab
 from PIL import Image
 import numpy as np
 from keras.models import load_model
+import time
 
 class AppWindow:
     c_height = 364
@@ -51,7 +52,6 @@ class AppWindow:
                 if abs(1 - result_list[0][i]) < best:
                     best = abs(1 - result_list[0][i])
                     prediction = i
-
         label.configure(text = 'Prediction: ' + str(prediction))
 
     def get_image(self, root, widget):

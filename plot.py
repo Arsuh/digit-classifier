@@ -106,7 +106,7 @@ def plot_random(path):
     plt.legend(['train', 'test'], loc='upper left')
 
 if __name__ == '__main__':
-    plot_best_models()
-    #plot_random('best_models/single_models/Conv128')
+    #plot_best_models()
+    plot_random('best_models/single_models/Best')
 
     plt.show()
