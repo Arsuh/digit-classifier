@@ -3,10 +3,9 @@ from tkinter import Tk, Canvas, Button, Label, S, E, W
 from PIL import Image, ImageGrab
 import numpy as np
 from keras.models import load_model
-import time
 
 class AppWindow:
-    c_height = 364
+    c_height = 364 + 35
     c_width = 364
     _model = 'single_models/Best'
     _bg = 'black'
@@ -16,7 +15,7 @@ class AppWindow:
         root.title('Digit Classifier')
         root.resizable(False, False)
 
-        c = Canvas(root, width=self.c_width, height=self.c_height + 32)
+        c = Canvas(root, width=self.c_width, height=self.c_height)
         c.configure(background=self._bg)
         c.bind('<B1-Motion>', self.draw)
         c.grid(row=0, column=0, columnspan=3, rowspan=4, pady=3)
@@ -43,8 +42,10 @@ class AppWindow:
         canvas.delete('all')
 
     def make_prediction(self, root, widget, label):
-        img = self.get_image(root, widget)
+        label.configure(text = 'Prediction:')
 
+        img = self.get_image(root, widget)
+        
         prediction = -1
         result_list = self.model.predict(img)
         best = 999999999
@@ -58,12 +59,15 @@ class AppWindow:
         x1 = root.winfo_rootx() + widget.winfo_x()
         y1 = root.winfo_rooty() + widget.winfo_y()
         x2 = x1 + widget.winfo_width()
-        y2 = y1 + widget.winfo_height() - 32
+        y2 = y1 + widget.winfo_height() - 35
 
         img = ImageGrab.grab().crop((x1,y1,x2,y2)).convert('L')
+        #img.save('./big_img.jpg')          #<---- OPTIONAL
+
         img = img.resize((28,28), Image.ANTIALIAS)
-        #img.save('./img.jpg')          #<---- OPTIONAL
+        #img.save('./res_img.jpg')          #<---- OPTIONAL
         img = np.asarray(img)
+
         if self._bg == 'white':
             img = 255 - img
         img = np.expand_dims(img, axis=0)

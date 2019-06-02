@@ -1,6 +1,6 @@
 Batch Size: 128
 
-Number of Hiden Layers: 128
+Number of Hidden Neuros: 128
 
 Drop Rate: 0.5
 

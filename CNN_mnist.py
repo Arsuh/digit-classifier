@@ -91,6 +91,6 @@ if __name__ == '__main__':
                     b_val_acc = val_acc[-1]
                     print('\nBetter ACCURACY found! Writing to file....\n')
                     with open('./best_models/zzz_Best_Results.txt', 'w') as f:
-                        f.write('Batch Size: {}\nNumber of Hiden Layers: {}\nDrop Rate: {}\nAccuracy: {}%'
+                        f.write('Batch Size: {}\nNumber of Hidden Neurons: {}\nDrop Rate: {}\nAccuracy: {}%'
                                .format(_bs, _hl, _dr, val_acc[-1]*100))
 
