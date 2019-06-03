@@ -15,19 +15,18 @@ class AppWindow:
         root.title('Digit Classifier')
         root.resizable(False, False)
 
+        label = Label(root, text='Prediction: NaN')
+        label.grid(row=4, column=0, sticky=W, padx=4, pady=4)
+
         c = Canvas(root, width=self.c_width, height=self.c_height)
         c.configure(background=self._bg)
         c.bind('<B1-Motion>', self.draw)
         c.grid(row=0, column=0, columnspan=3, rowspan=4, pady=3)
 
-        _reset = Button(text='Reset', command = lambda: self.reset(c))
+        _reset = Button(text='Reset', command = lambda: self.reset(c, label))
         _reset.grid(row=3, column=1, columnspan=2, sticky=S, padx=7, pady=8)
         _predict = Button(text='Predict', command = lambda: self.make_prediction(root, c, label))
         _predict.grid(row=3, column=2, sticky=S+E, padx=4, pady=8)
-        #Button(text='Predict', bg="Gray", fg="Gray85").grid(row=3, column=2, sticky=S+E, padx=4, pady=4)
-
-        label = Label(root, text='Prediction: NaN')
-        label.grid(row=4, column=0, sticky=W, padx=4, pady=4)
 
         self.model = load_model('../best_models/{}.hdf5'.format(self._model))
     
@@ -38,12 +37,11 @@ class AppWindow:
 
         event.widget.create_oval(x1, y1, x2, y2, fill=self._fill, outline=self._fill)
 
-    def reset(self, canvas):
+    def reset(self, canvas, label):
         canvas.delete('all')
+        label.configure(text = 'Prediction: NaN')
 
     def make_prediction(self, root, widget, label):
-        label.configure(text = 'Prediction:')
-
         img = self.get_image(root, widget)
         
         prediction = -1
