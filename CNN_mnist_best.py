@@ -5,6 +5,7 @@ from keras.datasets import mnist
 from keras.callbacks import ModelCheckpoint
 from keras.utils import np_utils
 
+#Parametrii retelei neuronale
 rows, cols = 28, 28
 _batch_size = 16
 _epochs = 30
@@ -13,6 +14,11 @@ _optimizer = 'adadelta'
 _hidden_layers = 128
 
 def preproc():
+    '''
+    Importarea bazei de date de antrenament din biblioteca Keras
+    Preprocesarea imaginilor
+    '''
+
     (X_train, y_train), (X_test, y_test) = mnist.load_data()
     X_train = X_train.reshape(X_train.shape[0], 1, rows, cols)
     X_train = np.transpose(X_train, (0,2,3,1))
@@ -25,6 +31,10 @@ def preproc():
     return X_train, y_train, X_test, y_test
 
 def create_model():
+    '''
+    Crearea modelului
+    '''
+
     classifier = Sequential()
 
     classifier.add(Conv2D(32, (5, 5), activation='relu', padding='same', input_shape=(rows, cols, 1)))
@@ -43,6 +53,10 @@ def create_model():
     return classifier
 
 def train(X_train, y_train, X_test, y_test):
+    '''
+    Antrenarea si salvarea modelului
+    '''
+
     model = create_model()
 
     checkpointer = ModelCheckpoint('./best_models/single_models/Conv128.hdf5',
@@ -57,6 +71,10 @@ def train(X_train, y_train, X_test, y_test):
     return history
 
 def save(val_loss, val_acc, loss, acc):
+    '''
+    Salvarea caracteristicilor modelului pentru a putea fi reprezentate pe grafic
+    '''
+
     with open('./best_models/test_single_models/Conv128.txt', 'w') as f:
         f.write('val_loss: {}\nval_acc: {}\nloss: {}\nacc: {}'
                 .format(val_loss, val_acc, loss, acc))

@@ -7,6 +7,7 @@ from keras.utils import np_utils
 
 #from sklearn.preprocessing import OneHotEncoder
 
+#Lista cu diferiti parametri pentru reteaua neuronala
 rows, cols = 28, 28
 _batch_size = [32, 64, 128]
 _epochs = 10
@@ -16,6 +17,11 @@ _hidden_layers = [64, 128, 256, 512]
 
 
 def preproc():
+    '''
+    Importarea bazei de date initiale din biblioteca Keras
+    si preprocesarea imaginilor
+    '''
+
     (X_train, y_train), (X_test, y_test) = mnist.load_data()
     X_train = X_train.reshape(X_train.shape[0], 1, rows, cols)
     X_train = np.transpose(X_train, (0,2,3,1))
@@ -36,6 +42,10 @@ def preproc():
 
 
 def model(_dr, _opt, _hl):
+    '''
+    Crearea modelului modificand, pe rand, parametrii acestuia
+    '''
+
     classifier = Sequential()
 
     classifier.add(Conv2D(32, (5, 5), activation='relu', padding='same', input_shape=(rows, cols, 1)))
@@ -53,12 +63,15 @@ def model(_dr, _opt, _hl):
 
 
 def train(_bs, _ep, _dr, _opt, _hl):
+    '''
+    Antrenarea modelelor si salvarea celor mai bune dintre acestea
+    in folderul best_models/
+    '''
     X_train, y_train, X_test, y_test = preproc()
     classifier = model(_dr, _opt, _hl)
 
     checkpointer = ModelCheckpoint('./best_models/{}-{}-{}.hdf5'.format(_bs, _hl, _dr), 
                                    monitor='val_acc', mode='max', save_best_only=True, verbose=1)
-    #checkpointer = ModelCheckpoint('./my_cnn_model.hdf5',save_best_only=True, save_weights_only=False, verbose=1)
     history = classifier.fit(X_train, y_train,
                              batch_size=_bs,
                              epochs=_ep,
@@ -69,11 +82,20 @@ def train(_bs, _ep, _dr, _opt, _hl):
 
 
 def save(_bs, _dr, _hl, val_loss, val_acc, loss, acc):
+    '''
+    Salvarea caracteristicilor celor mai bune modele in folderul
+    best_models/ pentru a putea fi usor reprezentate grafic
+    '''
     with open('./best_models/{}-{}-{}.txt'.format(_bs, _hl, _dr), 'w') as f:
         f.write('val_loss: {}\nval_acc: {}\nloss: {}\nacc: {}'
                 .format(val_loss, val_acc, loss, acc))
 
 if __name__ == '__main__':
+    '''
+    Parcurgerea si antrenarea tuturor modelelor
+    Gasirea unui model optim
+    '''
+
     b_val_acc = -1.0
 
     for _bs in _batch_size:

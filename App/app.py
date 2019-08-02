@@ -5,6 +5,7 @@ import numpy as np
 from keras.models import load_model
 
 class AppWindow:
+    #Parametrii aplicatiei
     c_height = 364 + 35
     c_width = 364
     _model = 'single_models/Best'
@@ -12,6 +13,7 @@ class AppWindow:
     _fill = 'white'
 
     def __init__(self, root):
+        #Configurarea si initializarea ferestrei
         root.title('Digit Classifier')
         root.resizable(False, False)
 

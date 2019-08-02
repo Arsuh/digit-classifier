@@ -2,12 +2,15 @@ from keras.models import load_model
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint
 
+#Adresa celui mai bun model
 INITIAL_MODEL = 'single_models/Conv128'
 NAME = 'test'
 
 def train():
+    #Incarcarea modelului optim
     classifier = load_model('./best_models/{}.hdf5'.format(INITIAL_MODEL))
 
+    #Incarcarea in memorie si preprocesarea imaginilor din baza de date secundara
     train_datagen = ImageDataGenerator(rotation_range=5)
     test_datagen = ImageDataGenerator(rotation_range=5)
 
@@ -27,6 +30,7 @@ def train():
     checkpionter = ModelCheckpoint('./best_models/single_models/{}.hdf5'.format(NAME),
                                    monitor='val_acc', mode='max', save_best_only=True, verbose=1)
 
+    #Reantrenarea modelului
     history = classifier.fit_generator(train_generator,
                                        steps_per_epoch=1500,
                                        epochs=20,
